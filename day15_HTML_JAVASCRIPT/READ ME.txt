@@ -1,0 +1,13 @@
+create index.html file
+
+create script.js file
+
+to run the code:
+    -> open terminal and type index.html 
+    (browser will automaically open and will execute the program)
+
+    or
+
+    right click on index.html file and select chooce Open with live server
+    (browser will automaically open and will execute the program)
+    note : Live Server must be installed first on Extensions (ctrl+shift+x)

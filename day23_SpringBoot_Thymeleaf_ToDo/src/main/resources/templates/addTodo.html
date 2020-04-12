@@ -1,0 +1,18 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Todo</title>
+</head>
+<body>
+    <!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+    <header th:replace="fragments/header.html :: header"></header>
+    <form th:action="addPost" method="post" th:object="${todo}">
+        title : <input type="text" th:field="*{title}"/>
+        description: <input type="text" th:field="*{description}" />
+        <input type="submit" value="Add Todo">
+    </form>
+    <!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+    <footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

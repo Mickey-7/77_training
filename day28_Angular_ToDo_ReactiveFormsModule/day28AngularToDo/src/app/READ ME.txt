@@ -1,0 +1,46 @@
+Office Work:
+- To-Do: id, title, description, complete: boolean
+- View/Add/Edit/Delete task
+- View: Mark as complete (checkbox)
+- Separate View, Add, Edit screens
+-----------------------------------------------------------------------------------------------
+
+create new angular project
+    npx @angular/cli new project_name
+
+create class
+    npx ng g cl domain/todo --skipTests
+
+create component
+    npx ng g c component/add -it -is --skipTests
+    npx ng g c component/view -it -is --skipTests
+    npx ng g c component/edit -it -is --skipTests
+    npx ng g c component/header -it -is --skipTests
+
+create service
+    npx ng g s service/todo --skipTests
+
+-----------------------------------------------------------------------------------------------
+
+to include component on routing : on app-routing.module.ts put code below
+    
+    { path: "", redirectTo: "/", pathMatch: "full" },
+    { path: "URL_name", component : Component_name}
+    { path: "URL_name/:id", component : Component_name}
+
+Note : how the URL should be if were going to pass an id 
+
+-----------------------------------------------------------------------------------------------
+
+import { ReactiveFormsModule } from "@angular/forms"; on app.module.ts
+
+-----------------------------------------------------------------------------------------------
+
+define all the method needed on todo.service.ts 
+    then include the service on all constructor of component (add,edit,view)
+      constructor(private todoService : TodoService) { }
+
+
+
+
+

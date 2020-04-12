@@ -1,0 +1,121 @@
+create in order
+
+------------------------------------------------------------------------------------
+BE
+
+domain -> Student (Long id, String name, Double grade)
+dao -> StudentDAO (interface)
+        -> StudentDAOImpl implements StudentDAO
+            -> create blank list of students & override methods
+            -> notice the @Component annotation else will encounter error below
+                ***************************
+                APPLICATION FAILED TO START
+                ***************************
+                Description:
+                Parameter 0 of constructor in com.example.day22_ThymeLeaf_Part2.service.StudentService required a bean of type 'com.example.day22_ThymeLeaf_Part2.dao.StudentDAO' that could not be found.
+                Action:
+                Consider defining a bean of type 'com.example.day22_ThymeLeaf_Part2.dao.StudentDAO' in your configuration.
+                Process finished with exit code 1
+service -> StudentService
+            -> notice the @Service and @Autowired annotation
+controller -> StudentController
+                -> notice the @Controller and @Autowired annotation
+                -> the return of every api @GetMapping controller pertains to .html file template
+                -> addStudent -> @GetMapping & @PostMapping
+                    -> @GetMapping is being executed first then after clicking submit button @PostMapping will then be executed
+                    -> console output:
+                        This is Home API Controller             -> starting from home page
+                        This is addStudent Get Controller       -> api get controller
+                        This is addStudent Post Controller      -> api post controller
+                        This is addStudent Service              -> addStudent service
+                        Student Added                           -> addStudent dao
+                        This is viewAllStudents Controller      -> redirect to viewAllStudents from api post controller
+                        This is getAllStudents Service          -> viewAllStudents service
+                        Students Displayed                      -> viewAllStudents dao
+                -> viewAllStudents -> @GetMapping
+                    -> console output:
+                        This is viewAllStudents Controller      -> redirect to viewAllStudents from api post controller
+                        This is getAllStudents Service          -> viewAllStudents service
+                        Students Displayed                      -> viewAllStudents dao
+                -> updateStudent -> @GetMapping & @PostMapping
+                    -> console output:
+                        This is updateStudent Get Controller    -> api get controller - need to manually put the id to compensate fo the error below
+                        2020-03-28 21:40:32.080  WARN 1108 --- [nio-8080-exec-4] o.springframework.validation.DataBinder  : Skipping URI variable 'id' because request contains bind value with same name.
+                        This is updateStudent Post Controller   -> api post controller
+                        This is updateStudent Service           -> update service
+                        Student Displayed ID                    -> update dao
+                        Student Updated                         -> getStudentId dao
+                        This is viewAllStudents Controller      -> redirect to viewAllStudents from api post controller
+                        This is getAllStudents Service          -> viewAllStudents service
+                        Students Displayed                      -> viewAllStudents dao
+                -> deleteStudent -> @GetMapping & @PostMapping
+                    -> console output:
+                                                                -> since web browser is dynamic, the error below if from
+                                                                   delete api get controller - need to put id manually on web browser
+                        2020-03-28 21:43:05.176  WARN 1108 --- [nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "null"]
+                        This is getStudentId Service            -> getStudentId service
+                        Student Displayed ID                    -> getStudentId dao
+                                                                -> was repeated again as we input the id
+                        This is deleteController Get Controller -> deleteStudent api get controller
+                        This is getStudentId Service            -> getStudentId service
+                        Student Displayed ID                    -> getStudentID dao
+                        This is deleteStudent Service           -> deleteStudent service
+                        This is deleteController Post Controller-> deleteStudent api post controller
+                        This is viewAllStudents Controller      -> redirect to viewAllStudents from api post controller
+                        This is getAllStudents Service          -> viewAllStudents service
+                        Students Displayed                      -> viewAllStudents dao
+
+------------------------------------------------------------------------------------
+
+FE
+
+under resources/templates,
+
+create a fragments folder and under it create header.html
+    -> notice the th:fragment="header"
+    -> all the links on the href pertains to the api controller URL
+        -> if the href link is clicked : will be directed automatically in controller and not on .html file
+        -> th:href="'/urlName/'+${id}" pertains to dynamic URL
+
+create footer.html (same directory as header.html)
+    -> notice the th:fragment="footer"
+
+create home.html under resources/templates
+    -> notice the header and footer - th:replace="fragments/header.html :: header" and th:replace="fragments/footer.html :: footer"
+        -> th:replace="directory(w.r.t. templates as source folder) :: th:fragment name
+    -> notice the th:text="${message}"
+        -> pertains to the message object on controller - see Model
+
+create a addStudent.html (same directory as home)
+    -> notice the th:object="${student}" on form and th:field="*{fieldName}" on input field inside the form
+        -> this pertains to the modelMap "student" on @GetMapping addStudent controller api
+    -> notice action:"addPost" & method="post" on form
+        -> this is connected to @PostMapping("addPost") of addStudent on controller
+        -> also the redirect:/URL of @PostMapping pertains to the url web browser
+            which is also the @GetMapping(getAllStudents) that returns viewAllStudents.html
+
+create a viewAllStudents.html (same directory as home)
+    -> notice the th:each="student:${students}"
+        -> pertains to looping of students list from "students" modelMap
+
+create updateStudent.html (same directory as addStudent.html)
+    -> notice the th:action="'/updateStudentPost/'+${id}" method="post"
+        -> need to manually put the id and connected to the @PostMapping("updateStudentPost/{id}") of updateStudent on controller
+    -> also the redirect:/URL of @PostMapping pertains to the url web browser
+        which is also the @GetMapping(getAllStudents) that returns viewAllStudents.html
+
+create delete.html (same directory as addStudent.html)
+    -> notice the th:action="'/deleteStudentPost/'+${id}" method="post" - dynamic url
+        -> need to manually put the id and connected to the @PostMapping("deleteStudentPost/{id}") of updateStudent on controller
+    -> also the redirect:/URL of @PostMapping pertains to the url web browser
+        which is also the @GetMapping(getAllStudents) that returns viewAllStudents.html
+
+------------------------------------------------------------------------------------
+
+top level flow
+
+header href links -> @GetMapping controller -> .html templates -> @PostMapping controller ---
+                      ^                                                                      |
+                      |                                                                      |
+                      ------------------------------------------------------------------------
+

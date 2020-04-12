@@ -1,0 +1,132 @@
+/* initially hides the tab-content */
+.tab-content{
+  display: none;
+}
+/* if the input tag is clicked, will show tab-content */
+.tab input:checked ~ .tab-content{
+  display: block;
+}
+
+/* ------------------------------------------------------ */
+
+/* [THE ENTIRE TAB] */
+.tab {
+  position: relative;
+  margin: 2px;
+  max-width: 700px;
+}
+
+/* [THE INPUT] */
+.tab input {
+  /* removing the display of checkbox */
+  display: none;
+}
+/* will perform the rotation of the arrow on label::after */
+.tab input[type=checkbox]:checked + label::after{
+  transform: rotate(90deg);
+}
+
+/* [THE LABEL] */
+.tab label {
+  /* separate the label into a block from checkbox display */
+  display: block;
+  /* block bg color */
+  background: #2d5faf;
+  /* label text font color */
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  cursor: pointer;
+}
+.tab label::after {
+  /* displays an arrow */
+  content: "\25b6";
+  position: absolute;
+  /* moves the arrow to the right and top */
+  right: 10px;
+  top: 10px;
+  transition:1s;
+}
+
+/* [THE CONTENTS] */
+.tab-content{
+  margin: 20px;
+}
+
+/* overriding the input form fields*/
+.tab form input {
+  display: block;
+}
+
+/* [DOES NOT MATTER] */
+html, body {
+  font-family: arial;
+  background: #f2f2f2;
+  max-height: 0;
+  max-height: 100vh;
+}
+
+
+/* design for table */
+#table th{
+  padding-left: 75px;
+  padding-right: 75px;
+  background: #2d5faf;
+  color: #fff;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+#table tr{
+  background: #2d5faf;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+#tableGet td{
+  background: dodgerblue;
+  /* will occupy the while width */
+  width: 160px;
+  text-align: center;
+  /* text color */
+  color: aqua;
+  /* td/box height */
+  line-height: 25px;
+  /* text thickness  */
+  font-weight: 400;
+  /* text size */
+  font-size: 15px;
+
+
+}
+
+#tableGetName td{
+  background: dodgerblue;
+  /* will occupy the while width */
+  width: 160px;
+  text-align: center;
+  /* text color */
+  color: aqua;
+  /* td/box height */
+  line-height: 25px;
+  /* text thickness  */
+  font-weight: 400;
+  /* text size */
+  font-size: 15px;
+}
+
+/* for flex display */
+.flex-container{
+  display: flex;
+}
+
+.flex-content{
+  /* to retain content width */
+  width: 100%;
+
+}
+
+

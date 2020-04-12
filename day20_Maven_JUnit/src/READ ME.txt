@@ -1,0 +1,73 @@
+Maven project :
+    src
+        main
+            java
+            resources
+        test
+            java
+        .iml file
+        pom.xml
+
+Maven Archetype project :
+    src
+        main
+            webapp
+                WEB-INF
+                    web.xml
+                 index.jsp
+     target
+     pom.xml
+
+--------------------------------------------------------------------------------------
+
+this is a Maven project :
+
+import dependency below : for JUnit
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+under main/java : create com.JUnit/FahrenheitCelsiusConverter class
+
+under test/java : create MyTestCase/FahrenheitCelsiusConverterTest class
+
+
+--------------------------------------------------------------------------------------
+
+got this error -> Error:java: error: release version 5 not supported
+
+set Java Compiler to 1.78 ot put below code to pom.xml
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+--------------------------------------------------------------------------------------
+
+on src/test/java/MyTestCase/FahrenheitCelsiusConverterTest class
+
+    @Test
+    public void toCelsius(){
+        //calling the class bu creating new object from it
+        FahrenheitCelsiusConverter fahrenheitCelsiusConverter = new FahrenheitCelsiusConverter();
+        Object result = fahrenheitCelsiusConverter.toCelsius( -40.0);
+        assertEquals(-40.0,result);
+        Object result1 = fahrenheitCelsiusConverter.toCelsius(3668.0);
+        assertEquals(2020.0,result1);
+        assertNull(fahrenheitCelsiusConverter.toCelsius(null));
+    }
+
+    assertEquals(Double,Double) has been deprecated so change result from Double to Object
+
+
+
+
+

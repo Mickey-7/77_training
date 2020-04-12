@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML & Javascript</title>
+</head>
+<body>
+
+    <!-- HTML - table of animals + add animal form -->
+    <!-- table of animals -->
+    <table id="animalTable" border="1">
+        <tr>
+            <th>ID</th>
+            <th>Animal Name</th>
+            <th>Num Feet</th>
+        </tr>
+        <tr>
+            <!-- dummy data -->
+            <td>1</td>
+            <td>Manok na pula</td>
+            <td>2</td>
+        </tr>
+    </table>
+    <hr/>
+    <!-- add animal form -->
+    <form>
+        ID: <input id="id" type="number" placeholder="enter animal id" />
+        Animal Name: <input id="name" type="text" placeholder="enter animal name" />
+        Num Feet: <input id="numFeet" type="number" placeholder="enter animal num feet" />
+    </form>
+    <!-- adding the addAnimal() function -->
+    <button onclick="addAnimal()">Add</button>
+        <!-- adding the autoPopulate() function -->
+    <button onclick="autoPopulate()">Auto-Populate</button>
+
+    <!-- connecting Javascript -->
+    <script src="script.js"></script>
+</body>
+</html>

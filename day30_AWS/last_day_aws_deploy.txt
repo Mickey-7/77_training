@@ -1,0 +1,20 @@
+
+
+-->open git bash type: ssh-keygen --> enter --> enter (.ssh folder will be created on C:\Users\mmacaranas)
+-->go to aws (Account ID = 77soft, IAM user name = training, Password = p@ssw0rd1)
+-->go to keys and index and import the public key (mickey-laptop)
+-->go to EC2 instances, create (add HTTP on security) and launch the instance and copy on clipboard the IP add
+-->go to git bash and type ssh ec2-user@(IP add)
+-->type: sudo amazon-linux-extras install java-openjdk11 to install java
+-->type: java -version to check the installed version
+-->type: sudo yum install maven to install maven
+-->type: mvn -version to check the installed version
+-->make a dirtory where we will deploy the program, sudo mkdir /student-api
+-->make all the privilage available for the file: sudo chmod 777 /student-api, ls -l / (to check the directory)
+-->edit the apllication.properties file of the program, vi src/main/resources/application.properties, type: i (notice the insrt on lower left)  then you can now start editing it to server.port=8080 then exit by typing :x then enter
+-->open cmd and go to the directory of the folder of the program, cd cd C:\Users\mmacaranas\Documents\sevenseven\day29\angular-spring
+-->copy then program by typing: scp -r student-api ec2-user@(IP add):/student-api where first student-api is the name of the folder of the program anda the second student-api is the directory name
+-->then run the program, mvn spring-boot:run
+-->type (IP add):8080/students on browser to check if working
+
+

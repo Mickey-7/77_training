@@ -1,0 +1,186 @@
+this project is from start.spring.io
+
+add the dependencies below : (Spring Web & Thymeleaf)
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+------------------------------------------------------------------------
+
+default directories
+
+    src
+        main
+            java
+                com.example.day21_Thymeleaf
+            resources
+                static
+                templates
+                application.properties
+        test
+        READ ME.txt - added for documentation purposes
+
+------------------------------------------------------------------------
+
+run then type localhost:8080 on web browser -> output : Whitelabel Error Page
+
+create an index.html file under the resources/static folder and put code below
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>INDEX PAGE FROM RESOURCES/STATIC</title>
+    </head>
+    <body>
+        <h3>This is index.html from resources/static</h3>
+    </body>
+    </html>
+
+run then type localhost:8080 on web browser again -> output : This is index.html from resources/static
+
+------------------------------------------------------------------------
+
+create an home.html file under the resources/templates folder and put code below
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>HOME PAGE FROM RESOURCES/TEMPLATES</title>
+    </head>
+    <body>
+        <h3>This is home.html from resources/templates</h3>
+    </body>
+    </html>
+
+create a HomeController under src/main/java/com.example.day21_Thymeleaf
+    -> notice the annotation @Controller & @GetMapping("home") (for url web browser)
+    -> the return "home" pertains to the home.html file created
+
+run then type localhost:8080/home on web browser -> output : This is home.html from resources/templates
+
+------------------------------------------------------------------------
+
+customizing application.properties
+    -> create another.properties under resources
+        -> write the code below inside it
+            another.message = Another Message
+
+then on HomeController use @PropertySource("another.properties")
+    -> then type the code below
+            @Value("${another.message}")
+            private String message
+    -> to print the value of another.message on another.properties
+            modify home() method and put sout(message) -> output on console : Another Message
+
+------------------------------------------------------------------------
+
+create the following in order:
+    domain -> Student
+    dao -> StudentDAO (interface)
+            -> StudentDAOImpl_fromDB implements StudentDAO (override methods)
+                -> take note of the annotation @Primary (priority compared to MOCK) & @Component(value = "DB")
+            -> StudentDAOImpl_fromMOCK implements StudentDAO (override methods)
+                -> take note of the annotation @Component(value = "MOCK")
+    service -> StudentService
+                -> take note of the annotation @Service and the @Autowired for StudentDAO and the constructor
+    resources/templates -> students.html
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>Students</title>
+        </head>
+        <body>
+          <h1>Student Page from template</h1>
+        </body>
+        </html>
+
+    controller -> StudentController
+                    -> take note of the annotation @Controller and the @Autowired for StudentService and the constructor
+
+run the code then type localhost:8080/viewStudents on web browser -> output : students.html from resources/templates
+
+console output :
+This is StudentController
+This is StudentService
+-------------------DB-------------------
+[Student{id=1, name='student1FromDB', grade=10.0}, Student{id=2, name='student2FromDB', grade=20.0}, Student{id=3, name='student3FromDB', grade=30.0}, Student{id=4, name='student4FromDB', grade=40.0}]
+
+notice the students are from DB
+
+------------------------------------------------------------------------
+
+to display on console the students from MOCK : put annotation @Qualifier("MOCK") on top of @Autowired
+
+output on console:
+This is StudentController
+This is StudentService
+-------------------MOCK-------------------
+[Student{id=1, name='student1FromMOCK', grade=10.0}, Student{id=2, name='student2FromMOCK', grade=20.0}, Student{id=3, name='student3FromMOCK', grade=30.0}, Student{id=4, name='student4FromMOCK', grade=40.0}]
+
+------------------------------------------------------------------------
+
+create configuration folder and BeanConfig class under it
+    -> take note of the @Configuration & @Bean annotation
+
+create a bean below for random student
+
+    @Bean
+    public Student baseStudent(){
+        return new Student(new Random().nextLong(),"Student Bean",new Random().nextDouble());
+    }
+
+then call it on the controller/StudentController like below
+
+    @Autowired
+    private Student baseStudent;
+    @GetMapping("beanStudent")          //pertains to url web browser
+    public String viewBaseStudent(){
+        System.out.println("This is from BeanConfig");
+        System.out.println(baseStudent);
+        return "students";       //pertains to students.html
+    }
+
+take note that the @Autowired baseStudent is the @Bean name
+
+console output:
+This is from BeanConfig
+Student{id=1595773502873377610, name='Student Bean', grade=0.6687700853536479}
+
+------------------------------------------------------------------------
+
+to modify the server port from 8080 to 5000 : type the code below
+    -> server.port = 5000
+
+------------------------------------------------------------------------
+
+to still demonstrate the @Value annotation see below:
+
+on application.properties type below codes
+
+    db.url = jdbc:mysql://localhost:3305/bankSchema
+    db.username = root
+    db.password = password
+
+then on StudentDAOImpl_fromDB use annotation @Value and print out the values on console
+but make sure the @Qualifier on service is set to "DB" so that it will be printed out on the console
+
+console output:
+This is StudentController
+This is StudentService
+PORT: 5000
+DB: jdbc:mysql://localhost:3305/bankSchema
+Username: root
+Passwordpassword
+-------------------DB-------------------
+[Student{id=1, name='student1FromDB', grade=10.0}, Student{id=2, name='student2FromDB', grade=20.0}, Student{id=3, name='student3FromDB', grade=30.0}, Student{id=4, name='student4FromDB', grade=40.0}]
+

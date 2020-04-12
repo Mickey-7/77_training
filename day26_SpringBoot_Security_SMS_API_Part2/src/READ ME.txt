@@ -1,0 +1,73 @@
+copy all from day25_SpringBoot_SMS_API_Part2 : just add security dependency
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+-----------------------------------------------------------------------------------
+
+then create all the needed for User (class and interface)
+
+domain : User class implements UserDetails
+    @Entity
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    alt enter then select implement all methods
+    make return true for the last 4 methods
+    make corresponding return for this.password & this.username method
+    make return Arrays.asList(new SimpleGrantedAuthority(authority));
+    NOTE : authority is not a string data type !!!!!!!!!!!!!!!!!!!!!
+
+repository : UserRepository interface extends JpaRepository<User,Long>
+    @Repository
+    User findByUsername(String Username);
+
+service :UserService class implements UserServiceDetails
+    @Service
+    @Autowired
+    addUser - set PasswordEncoded
+    @PostConstruct - use addUser to set default admin account
+    alt enter implement method - call the interface from userRepository
+
+controller : UserController class
+    @RestController
+    @RequestMapping("/users")
+    @PostMApping("register") - return userService.addUser()
+    @GetMapping("/me") - return principal
+
+configuration : SecurityConfig class extends WebSecurityConfigurerAdapter
+    @Configuration
+    @EnableGlobalMethodSecurity(prePostEnable = true)
+    @Bean - return new BCryptPasswordEncoder()
+    select configure(AuthenticationManagerBuilder auth) & configure(Http http)
+
+
+-----------------------------------------------------------------------------------
+@EnableGlobalMethodSecurity(prePostEnabled = true) : must be on above SecurityConfig class
+
+only ADMIN can access method with @PreAuthorize("hasAuthority('ADMIN')")
+    both ADMIN & USER can access methods if np @PreAuthorize was put above @ annotation
+
+only ADMIN can
+    addUser
+    addTeacher
+    editTeacher
+    deleteTeacher
+
+-----------------------------------------------------------------------------------
+encountered error :
+
+    {
+        "timestamp": "2020-04-11T04:52:12.082+0000",
+        "status": 500,
+        "error": "Internal Server Error",
+        "message": "No message available",
+        "path": "/users/register"
+    }
+
+forget to put @RequestBody on the UserController addUser method!!!!!!!!
+
+
+

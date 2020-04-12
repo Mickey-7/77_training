@@ -1,0 +1,38 @@
+copy all from day25_SpringBoot_SMS_API :
+
+=> the only addition will be on the repositories and the corresponding service and API
+
+repository :
+
+StudentRepository
+    //Search Students By First Name And Last Name
+    Student findByFirstNameAndLastName(String firstName, String lastName);
+    //- Search Teachers by Student Name (contains)
+    Student findByFirstNameContaining(String firstName);
+
+TeacherRepository
+    //- Search Students by Teacher's Last Name
+    Teacher findAllTeacherByLastName(String lastName);
+
+controller API : notice that we used mostly @RequestParam for searching
+    => ?field_name=field_value_to_be_searched : changes on URL
+
+--------------------------------------------------------------------------------------------
+
+Postman
+
+GET : localhost:8080/student/searchStudentByFirstAndLastName?firstName=Harry&&lastName=Dober        SEND
+    run console output : Hibernate: select student0_.id as id1_0_, student0_.first_name as first_na2_0_, student0_.grade as grade3_0_, student0_.last_name as last_nam4_0_ from student student0_ where student0_.first_name=? and student0_.last_name=?
+
+GET : localhost:8080/student/getTeacherByStudentName?firstName=Korie        SEND
+   run console output : Hibernate: select teacher0_.id as id1_1_, teacher0_.first_name as first_na2_1_, teacher0_.last_name as last_nam3_1_ from teacher teacher0_ where teacher0_.last_name=?
+                         Hibernate: select students0_.teacher_id as teacher_1_2_0_, students0_.students_id as students2_2_0_, student1_.id as id1_0_1_, student1_.first_name as first_na2_0_1_, student1_.grade as grade3_0_1_, student1_.last_name as last_nam4_0_1_ from teacher_students students0_ inner join student student1_ on students0_.students_id=student1_.id where students0_.teacher_id=?
+                         Hibernate: select teacher0_.id as id1_1_, teacher0_.first_name as first_na2_1_, teacher0_.last_name as last_nam3_1_ from teacher teacher0_ where teacher0_.last_name=?
+                         Hibernate: select students0_.teacher_id as teacher_1_2_0_, students0_.students_id as students2_2_0_, student1_.id as id1_0_1_, student1_.first_name as first_na2_0_1_, student1_.grade as grade3_0_1_, student1_.last_name as last_nam4_0_1_ from teacher_students students0_ inner join student student1_ on students0_.students_id=student1_.id where students0_.teacher_id=?
+
+
+GET : localhost:8080/teacher/searchStudentByTeacherLastName?lastName=Hauxby     SEND
+    run console output : Hibernate: select teacher0_.id as id1_1_, teacher0_.first_name as first_na2_1_, teacher0_.last_name as last_nam3_1_ from teacher teacher0_ where teacher0_.last_name=?
+                         Hibernate: select students0_.teacher_id as teacher_1_2_0_, students0_.students_id as students2_2_0_, student1_.id as id1_0_1_, student1_.first_name as first_na2_0_1_, student1_.grade as grade3_0_1_, student1_.last_name as last_nam4_0_1_ from teacher_students students0_ inner join student student1_ on students0_.students_id=student1_.id where students0_.teacher_id=?
+                         Hibernate: select teacher0_.id as id1_1_, teacher0_.first_name as first_na2_1_, teacher0_.last_name as last_nam3_1_ from teacher teacher0_ where teacher0_.last_name=?
+                         Hibernate: select students0_.teacher_id as teacher_1_2_0_, students0_.students_id as students2_2_0_, student1_.id as id1_0_1_, student1_.first_name as first_na2_0_1_, student1_.grade as grade3_0_1_, student1_.last_name as last_nam4_0_1_ from teacher_students students0_ inner join student student1_ on students0_.students_id=student1_.id where students0_.teacher_id=?

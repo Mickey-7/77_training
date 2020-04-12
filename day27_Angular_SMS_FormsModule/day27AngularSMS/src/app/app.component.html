@@ -1,0 +1,12 @@
+<h3 style="text-align: center;">{{title}}</h3>
+
+<nav>
+  <!-- snippet a-ro -->
+  <a [routerLink]="['/teacher']" routerLinkActive="router-link-active" >Teacher Link</a>
+  <hr/>
+  <a [routerLink]="['/student']" routerLinkActive="router-link-active" >Student Link</a>
+  <hr/>
+</nav>
+
+<router-outlet></router-outlet>
+<!-- Routed views go here -->

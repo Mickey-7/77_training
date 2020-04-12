@@ -1,0 +1,177 @@
+make the need configurations on pom.xml :
+
+change maven compiler source & target from 1.7 to 1.8
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--    <maven.compiler.source>1.7</maven.compiler.source>-->
+    <!--    <maven.compiler.target>1.7</maven.compiler.target>-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+      </properties>
+add the tomcat plugin
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
+add the javax.servlet dependency
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>4.0.1</version>
+          <scope>provided</scope>
+        </dependency>
+
+------------------------------------------------------------------------------------------
+
+demo for different .jsp file locations - private and public respectively
+
+create sample.jsp - inside WEB-INF
+create Demo class - inside com.servlet
+    => @WebServlet("/sample") annotation
+        => where sample is appended on URL
+        => also pertains to sample.jsp file
+    => extends to HttpServlet
+    => ctrl o then select doGet() method
+    => remove default super() inside then type req. then put the directory of sample.jsp w.r.t. WEB-INF
+    => then append.forward method() then run and check the web browser after putting sample on URL at the end
+        output on web browser should be : Thi is sample.jsp under WEB-INF
+
+create public.jsp under webapp
+    => append public.jsp on the URL
+        output on web browser should be : Thi is public.jsp inline with WEB-INF
+
+------------------------------------------------------------------------------------------
+
+under main :
+=> create java directory
+    => open project structure
+        => under Project Settings, select Modules
+            => Mark as : Sources then select the java folder created
+                => notice the change in color of the folder upon doing that
+                    => under java create a package com.servlet
+
+under com.servlet :
+=> create domain/Student class
+
+=> create dao/StudentDAO class
+    => create mock data and the needed methods for get and add
+
+=> create service/StudentService class
+    => create StudentDAO object : private StudentDAO studentDAO
+    => create constructor : public StudentService(){ this.studentDAO = new StudentDAO;}
+
+=> create servlet/StudentServlet class
+    => @WebServlet("/student") annotation
+        => where student is appended on URL
+        => also pertains to student.jsp file
+    => extends to HttpServlet
+    => create StudentService object : private StudentService studentService
+    => create constructor : public StudentServlet(){ this.studentService = new StudentService();}
+    => CTRL o and select doGet() method
+    => run console output :
+        student doGet
+=> create student.jsp under WEB-INF/jsp folder directory
+    => Note : <%= request.getAttribute("student") %> pertain to the students object
+        output on web browser :
+        [Student{id=1, name='student1', grade=10.0}, Student{id=2, name='student1', grade=20.0},
+        Student{id=3, name='student1', grade=30.0}, Student{id=4, name='student1', grade=40.0}]
+
+=> create servlet/AddStudentServlet class
+    => @WebServlet("/addStudent") annotation
+        => where addStudent is appended on URL
+        => also pertains to addStudent.jsp file
+    => extends to HttpServlet
+    => create StudentService object : private StudentService studentService
+    => create constructor : public StudentServlet(){ this.studentService = new StudentService();}
+    => CTRL o and select doGet() and doPost() method
+        doGet() method will be executed first - will render addStudent.jsp
+        followed by doPost() - which will get details from addStudent.jsp
+    => run console output :
+        addStudent doGet
+        addStudent doPost
+=> create addStudent.jsp under WEB-INF/jsp folder directory
+    => Note : <form action="addStudent" method="POST">
+        pertain to the @WebServlet("/addStudent") doPost() method
+    => Note : the name="" property in input field is passed to servlet as parameter
+        can be accessed by req.getParameter("")
+
+------------------------------------------------------------------------------------------
+
+adding login and logout session :
+
+=> under domain : create User class
+
+=> under dao : create UserDAO class
+    => create mock list of user and the method for checking username and password
+
+=> under service : create UserService class
+    => create UserDAO object : private UserDAO userDAO;
+    => create constructor invoking object above : public UserService(){ this.userDAO = new UserDAO();}
+
+=> under servlet : create LoginServlet class - creating Session
+    => @WebServlet("/login") pertains to login.jsp and login to be appended @ last part of URL
+    => extends HttpServlet
+    => create UserDAO object : private UserDAO userDAO;
+    => create constructor invoking object above : public UserService(){ this.userDAO = new UserDAO();}
+    => CTRL o and select doGet() and doPost()
+        doGet() method will be executed first - will render login.jsp
+        followed by doPost() - which will get details from login.jsp
+    => run console output :
+        login doGet
+        Apr 07, 2020 11:09:55 AM org.apache.jasper.compiler.TldLocationsCache tldScanJar
+        INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+        org.apache.catalina.session.StandardSessionFacade@17f3d956
+        login doPost
+=> create login.jsp under WEB-INF/jsp folder directory
+    => Note : <form action="login" method="POST">
+        pertain to the @WebServlet("/login") doPost() method
+    => Note : the name="" property in input field is passed to servlet as parameter
+        can be accessed by req.getParameter("")
+
+=> under servlet : create LogoutServlet class - invalidating Session
+    => @WebServlet("/logout") logout  pertains to be appended @ last part of URL
+    => extends HttpServlet
+    => CTRL o and select doGet() method and invalidate session inside it and redirect to login page
+=> add the code below on student.jsp for the logout button
+        <button onclick="window.location.href='logout'">Logout</button>
+            window.location.href returns the href (URL) of the current page
+
+------------------------------------------------------------------------------------------
+
+notice that we can still manipulate the URL so we will now add Security Filter
+
+under com.servlet,
+
+=> create filter/SecurityFilter class
+    => @WebFilter(value={"/addStudent"})
+        will filter addStudent page - the page after login page
+    => implements Filter then alt enter and implement all the override methods
+        => on doFilter() method : will check if addStudent page has a null username session
+
+------------------------------------------------------------------------------------------
+
+=> use req.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(res,resp);
+    for rendering the login page but will not change the URL
+
+=> use resp.sendRedirect("login");
+    for rendering login page but will also change the URL
+
+------------------------------------------------------------------------------------------
+
+whole program sequence :
+
+    Apr 07, 2020 11:50:40 AM org.apache.catalina.util.SessionIdGenerator createSecureRandom
+    INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [577] milliseconds.
+    security filter init
+    Apr 07, 2020 11:50:40 AM org.apache.coyote.AbstractProtocol start
+    INFO: Starting ProtocolHandler ["http-bio-8080"]
+    org.apache.catalina.session.StandardSessionFacade@42236965
+    login doPost
+    security filter doFilter
+    addStudent doGet
+    security filter doFilter
+    addStudent doPost
+    student doGet
+    logout doGet
+    login doGet

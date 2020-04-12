@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Todo</title>
+</head>
+<body>
+    <!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+    <header th:replace="fragments/header.html :: header"></header>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Delete</th>
+            <th>Complete</th>
+        </tr>
+<!--        the todos is from the controller ModelMap  -->
+        <tr th:each="todo:${todos}">
+            <td th:text="${todo.title}"></td>
+            <td th:text="${todo.description}"></td>
+            <td th:text="${todo.status}"></td>
+            <td th:text="${todo.dateCreated}"></td>
+            <td th:text="${todo.dateUpdated}"></td>
+<!--            the href link inside <a></a> tag is connected to the @GetMapping on controller-->
+<!--            the /delete/{title} pertains to the @GetMapping on controller -->
+<!--            set the title to be deleted (title=${todo.title})-->
+<!--            no need for @PostMapping since we do not have to put title manually like on day22-->
+            <td><a th:href="@{/delete/{title}(title=${todo.title})}">Delete</a></td>
+            <td><a th:href="@{/update/{title}(title=${todo.title})}">Complete</a></td>
+        </tr>
+    </table>
+    <!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+    <footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

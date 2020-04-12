@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Student</title>
+</head>
+<body>
+    <!--    invoking header-->
+    <header th:replace="fragments/header.html :: header"></header>
+    <!--    simple form - notice the property th:action, method and th:object-->
+    <form th:action="'/updateStudentPost/'+${id}" method="post" th:object="${student}">
+        <!--    Student fields - notice the property type, th:field th:value and required-->
+        ID: <input type="number" th:field="*{id}" th:value="*{id}" required/>
+        Name: <input type="text" th:field="*{name}" th:value="*{name}" required/>
+        Grade: <input type="number" th:field="*{grade}" th:value="*{grade}" required/>
+        <!--    notice the input but of type submit-->
+        <input type="submit" value="Update Student">
+    </form>
+    <!--    invoking footer-->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
+

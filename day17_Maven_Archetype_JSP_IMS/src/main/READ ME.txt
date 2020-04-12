@@ -1,0 +1,130 @@
+File->
+    New->
+        Project->
+            Maven->
+                check: Create from archetype->
+                    select anything then type maven-archetype-webapp which
+                    will give description below A simple Java web application->
+                        Next->
+                            GroupId : GroupId, ArtifactId : day17_Maven_Archetype_JSP_IMS->
+                                Next->
+                                    Next->
+                                        Finish->
+                                            then Enable Auto-Import
+
+---------------------------------------------------------------------------------------------
+
+initial directory produced :
+    src
+        main
+            webapp
+                WEB-INF
+                    web.xml
+                index.jsp
+        day17_Maven_Archetype_JSP_IMS.iml
+        pom.xml
+
+---------------------------------------------------------------------------------------------
+
+on pom.xml :
+
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--    <maven.compiler.source>1.7</maven.compiler.source>-->
+    <!--    <maven.compiler.target>1.7</maven.compiler.target>-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+      </properties>
+
+change 1.7 to 1.8
+
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
+
+also add the plugin above for the tomcat
+
+---------------------------------------------------------------------------------------------
+
+to run :
+
+=> click Add/Edit Configuration
+    => click + icon then select Maven
+        => type on the command line: clean package tomcat7:run
+            => Apply then Ok then run
+
+run console should display below :
+    "C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\jbr\bin\java.exe" -Dmaven.multiModuleProjectDirectory=C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS "-Dmaven.home=C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\plugins\maven\lib\maven3" "-Dclassworlds.conf=C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\plugins\maven\lib\maven3\bin\m2.conf" "-Dmaven.ext.class.path=C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\plugins\maven\lib\maven-event-listener.jar" "-javaagent:C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\lib\idea_rt.jar=53465:C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\bin" -Dfile.encoding=UTF-8 -classpath "C:\Users\mmacaranas\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2019.2.3\plugins\maven\lib\maven3\boot\plexus-classworlds-2.6.0.jar" org.codehaus.classworlds.Launcher -Didea.version2019.2.3 clean package tomcat7:run
+    [INFO] Scanning for projects...
+    [INFO]
+    [INFO] ---------------< GroupId:day17_Maven_Archetype_JSP_IMS >----------------
+    [INFO] Building day17_Maven_Archetype_JSP_IMS Maven Webapp 1.0-SNAPSHOT
+    [INFO] --------------------------------[ war ]---------------------------------
+    [INFO]
+    [INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO]
+    [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] Using 'UTF-8' encoding to copy filtered resources.
+    [INFO] skip non existing resourceDirectory C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\src\main\resources
+    [INFO]
+    [INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] No sources to compile
+    [INFO]
+    [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] Using 'UTF-8' encoding to copy filtered resources.
+    [INFO] skip non existing resourceDirectory C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\src\test\resources
+    [INFO]
+    [INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] No sources to compile
+    [INFO]
+    [INFO] --- maven-surefire-plugin:2.22.1:test (default-test) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] No tests to run.
+    [INFO]
+    [INFO] --- maven-war-plugin:3.2.2:war (default-war) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] Packaging webapp
+    [INFO] Assembling webapp [day17_Maven_Archetype_JSP_IMS] in [C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\target\day17_Maven_Archetype_JSP_IMS]
+    [INFO] Processing war project
+    [INFO] Copying webapp resources [C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\src\main\webapp]
+    [INFO] Webapp assembled in [63 msecs]
+    [INFO] Building war: C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\target\day17_Maven_Archetype_JSP_IMS.war
+    [INFO]
+    [INFO] >>> tomcat7-maven-plugin:2.2:run (default-cli) > process-classes @ day17_Maven_Archetype_JSP_IMS >>>
+    [INFO]
+    [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] Using 'UTF-8' encoding to copy filtered resources.
+    [INFO] skip non existing resourceDirectory C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\src\main\resources
+    [INFO]
+    [INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] No sources to compile
+    [INFO]
+    [INFO] <<< tomcat7-maven-plugin:2.2:run (default-cli) < process-classes @ day17_Maven_Archetype_JSP_IMS <<<
+    [INFO]
+    [INFO]
+    [INFO] --- tomcat7-maven-plugin:2.2:run (default-cli) @ day17_Maven_Archetype_JSP_IMS ---
+    [INFO] Running war on http://localhost:8080/day17_Maven_Archetype_JSP_IMS
+    [INFO] Creating Tomcat server configuration at C:\Users\mmacaranas\Downloads\day17_Maven_Archetype_JSP_IMS\target\tomcat
+    [INFO] create webapp with contextPath: /day17_Maven_Archetype_JSP_IMS
+    Apr 06, 2020 12:43:27 PM org.apache.coyote.AbstractProtocol init
+    INFO: Initializing ProtocolHandler ["http-bio-8080"]
+    Apr 06, 2020 12:43:27 PM org.apache.catalina.core.StandardService startInternal
+    INFO: Starting service Tomcat
+    Apr 06, 2020 12:43:27 PM org.apache.catalina.core.StandardEngine startInternal
+    INFO: Starting Servlet Engine: Apache Tomcat/7.0.47
+    Apr 06, 2020 12:43:30 PM org.apache.catalina.util.SessionIdGenerator createSecureRandom
+    INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [509] milliseconds.
+    Apr 06, 2020 12:43:30 PM org.apache.coyote.AbstractProtocol start
+    INFO: Starting ProtocolHandler ["http-bio-8080"]
+
+
+Crtl click the link (http://localhost:8080/day17_Maven_Archetype_JSP_IMS/) on run console
+    default landing page will be the index.jsp which will display Hello World! on the browser
+
+---------------------------------------------------------------------------------------------
+
+integrating our app from day16 :
+
+=> copy the files from day16 (index.html,style.css,script.js)
+    => delete the index.jsp and paste the files inline with WEB-INF
+        => rename index.html to index.jsp then run

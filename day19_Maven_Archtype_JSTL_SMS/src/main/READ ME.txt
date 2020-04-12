@@ -1,0 +1,123 @@
+same config from day18 adding only jstl dependency
+
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+and including the version in web.xml
+
+    <web-app version = "3.1">
+
+--------------------------------------------------------------------------------------------
+
+create User
+
+create UserDAO
+    => mock data
+    => method to check if user does exist (username) - sign-up
+    => method to check if user is valid (username,password) - for login
+    => method for getAllUsers and addUser
+
+create UserService
+    => private StudentDAO studentDAO;
+    => public UserService(){this.studentDAO = new StudentDAO();}
+
+-----------------------------------------------------------------------------------
+
+creating and displaying message in session from login servlet to login.jsp file :
+
+    //creating the message
+    String message = "this is a message";
+    //creating session and setting attribute message to it
+    HttpSession session = req.getSession();
+    session.setAttribute("jsp",message);
+
+displaying on login.jsp file
+
+    <p> ${jsp} </p>
+
+NOTE : this will only work if we redirect it to same login.jsp page
+
+    //as this req will not change the URL so the message will be displayed
+    req.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(res,resp);
+
+since this will stay on the same page : we use code below on .jsp file to navigate
+
+    <button onclick="window.location.href='sign-up'">Sign-up</button>
+
+-----------------------------------------------------------------------------------
+
+create UserLoginServlet
+    => @WebServlet("")
+    => extends HttpServlet
+    => private StudentService studentService;
+    => public UserLoginServlet(){this.studentService = new StudentService();}
+    => CTRL o select doGet() and doPost() - if user is valid, set its attributes
+create login.jsp
+    => NOTE : link for JSTL
+        <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    => to display text <p> ${'Enter details'} </p>
+        web browser output : Enter details
+
+create UserServlet
+    => @WebServlet("")
+    => extends HttpServlet
+    => private StudentService studentService;
+    => public UserServlet(){this.studentService = new StudentService();}
+    => CTRL o select doGet() - set users to attribute which will be called on users.jsp
+create user.jsp
+    => NOTE : link for JSTL
+        <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    => to iterate on users list we user c:forEach
+        <!-- iterate on userList items from users attribute -->
+         <c:forEach var="user" items="${userList}">
+            <tr style="text-align:center">
+                <td>${user.name}</td>
+                <td>${user.username}</td>
+                <td>${user.password}</td>
+            </tr>
+         </c:forEach>
+         <!-- need to terminate c:forEach -->
+
+create UserLogoutServlet
+    => @WebServlet("")
+    => extends HttpServlet
+    => private StudentService studentService;
+    => public UserLogoutServlet(){this.studentService = new StudentService();}
+    => CTRL o select doGet() - invalidate user session
+
+create UserSignUpServlet class and sign-up.jsp file
+    => same principles will be applied to them
+        just read comments on the code
+
+create filter/SecurityFilter
+    => @WebFilter(value={"/users"}) as users.jsp will be the next page after login
+    => implement Filter
+    => select all override methods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create UserSignUpServlet
+    =>
+
+
+

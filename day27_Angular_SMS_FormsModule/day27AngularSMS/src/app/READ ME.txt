@@ -1,0 +1,77 @@
+Angular:
+    - Create Student and Teacher classes
+    - Create Student and Teacher components
+    - App Component:
+        - Show table of students
+        - Show table of teachers
+        - Add student
+        - Add teacher
+        - (Bonus) Remove student, teacher
+        - (Bonus) Link Teacher and Student
+-----------------------------------------------------------------------------
+
+error encountered :
+
+    The specified command ("day27_Angular_SMS") is invalid. For a list of available options,
+    run "ng help".
+
+    Did you mean "analytics"?
+
+no new on npx @angular/cli new project_name
+
+
+    Project name "day27_Angular_SMS" is not valid. New project names must start with 
+    a letter, and must contain only alphanumeric characters or dashes. When adding a 
+    dash the segment after the dash must also start with a letter.
+    day27_Angular_SMS
+    ^
+
+project name should be alphanumeric only 
+
+
+    npm ERR! code ENOENT
+    npm ERR! syscall open
+    npm ERR! path C:\Users\mmacaranas\Documents\sevenseven\day27\sms\package.json
+    npm ERR! errno -4058
+    npm ERR! enoent ENOENT: no such file or directory, open 'C:\Users\mmacaranas\Documents\sevenseven\day27\sms\package.json'
+    npm ERR! enoent This is related to npm not being able to find a file.
+    npm ERR! enoent 
+
+    npm ERR! A complete log of this run can be found in:
+    npm ERR!     C:\Users\mmacaranas\AppData\Roaming\npm-cache\_logs\2020-04-11T07_34_45_503Z-debug.log`
+
+just type cd directory_folder_project_name 
+
+------------------------------------------------------------------------------
+
+create component :
+    npx ng g c component/student -it -is --skipTests
+    npx ng g c component/teacher -it -is --skipTests
+
+automatically imported on app.module.ts
+
+to add components to routing go to  app-routing.module.ts then type 
+  { path: "", redirectTo: "/", pathMatch: "full" },
+  { path: "URL_name", component: Component_name },
+
+
+import {FormsModule} from "@angular/forms" on app.module.ts to use [(ngModel)]
+    [(ngModel)]="field_name" is connected on field_name : datatype
+
+notice that we do not use form on input fields as we encounter below error :
+
+    core.js:6189 ERROR Error: If ngModel is used within a form tag, either the name attribute must be set or the form
+        control must be defined as 'standalone' in ngModelOptions.
+
+        Example 1: <input [(ngModel)]="person.firstName" name="first">
+        Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
+        at Function.missingNameException (forms.js:6679)
+        at NgModel._checkName (forms.js:7092)
+        at NgModel._checkForErrors (forms.js:7069)
+        at NgModel.ngOnChanges (forms.js:6962)
+        at NgModel.wrapOnChangesHook_inPreviousChangesStorage (core.js:26932)
+        at callHook (core.js:4694)
+        at callHooks (core.js:4654)
+        at executeInitAndCheckHooks (core.js:4595)
+        at selectIndexInternal (core.js:9625)
+        at Module.ɵɵadvance (core.js:9586)

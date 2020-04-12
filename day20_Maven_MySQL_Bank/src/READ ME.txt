@@ -1,0 +1,123 @@
+still same config , just add the dependency below for MySQL
+
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.18</version>
+    </dependency>
+
+------------------------------------------------------------------------------------
+
+debugging shits -> encountered error below :
+
+    Failed to execute goal org.apache.tomcat.maven:tomcat7-maven-plugin:2.2:run (default-cli) on project day20_Maven_MySQL_Bank: Could not start Tomcat
+
+isolation : tried deleting every servlet and found out sign-up servlet is the root cause
+
+    tried creating new SignUpServlet class
+
+-----------------------------------------------------------------------------------
+
+=> on domain : create another constructor for getAllTransaction - removing password field
+
+=> on dao : JDBC-  the preparedStatement and the input parameters of methods are related
+    Record all the transaction logs on the database by using insert query
+    NOTE : query to get latest balance below
+        select * from database_name where username=? order by transTime desc, transDate desc limit 1
+
+=> on service : passed methods from dao to servlet
+
+=> on servlet : create blank user then set all the fields needed to be passed on dao via service
+    Set session message here for notification on .jsp file : use different names for sessions!!!!!!!
+        String message = "this message will be displayed on .jsp file"
+        HttpSession session = req.getSession();
+        session.setAttribute("alertMessage",message);
+    Remove session message by using below code : notice same session name is being called for removal
+        HttpSession session = req.getSession();
+        session.removeAttribute("alertMessage");
+
+=> don't forget the version="3.1" setting on web.xml and the link for jstl
+    <!-- link for JSTL -->
+    <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+-----------------------------------------------------------------------------------
+
+program sequence :
+
+=> no registered valid user
+
+    Servlet - Login : doGet
+    Servlet - Login : doPost
+    Service - isUserValid
+    DAO - isUserValid
+    Account does not exist                                      :   browser output message
+
+
+=> if user successfully signed-up
+
+    Servlet - Sign-up : doGet
+    Servlet - Sign-up : doPost
+    Service - doesUsernameExist
+    DAO - doesUsernameExist
+    DAO - addUser
+    Successfully Signed-up!                                    :    browser output message if successful
+
+
+=> if username already exist
+
+    Servlet - Sign-up : doPost
+    Service - doesUsernameExist
+    Username Already Exist Try considering other Username       :   browser output if username already exist
+
+
+=> login user
+
+    Servlet - Login : doGet
+    Servlet - Login : doPost
+    Service - isUserValid
+
+=> user is in the menu
+
+    Servlet - Menu : doGet
+    What would you like to do?                                  :   browser output menu
+
+=> user select deposit
+
+    Servlet - Deposit : doGet
+    Servlet - Deposit : doPost
+    Service - viewBalance                                       :   getting existing valance
+    Service - deposit
+    DAO - deposit
+    Deposited Successfully!                                     :   browser output message after deposit
+
+=> user select withdraw
+
+    Servlet - Withdraw : doGet
+    Servlet - Withdraw : doPost
+    Service - viewBalance
+    Service - withdraw
+    DAO - withdraw
+    Withdrawn Successfully!                                      :  browser output message after withdraw
+
+=> user select transaction
+
+    Servlet - Transaction : doGet
+    Service - getAllTransaction
+    DAO - getAllTransaction
+
+=> user select logout
+
+    Servlet - Logout : doGet
+    Servlet - Login : doGet
+
+-----------------------------------------------------------------------------------
+
+cosmetics : all edits will be on .jsp file <style></style>
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<!--    invoking header-->
+    <header th:replace="fragments/header :: header"></header>
+<!--    invoking text message from controller-->
+    <h3 th:text="${message}"></h3>
+    <h4>This is Home page</h4>
+    <p>Nothing to see here</p>
+<!--    invoking footer-->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

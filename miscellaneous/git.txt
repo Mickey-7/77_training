@@ -1,0 +1,64 @@
+https://www.datacamp.com/community/tutorials/git-push-pull
+
+=> open terminal and go to directory of the folder you will add to github
+	use cd directoy of folder
+=> git init
+	notice that .git folder will appear
+=> git add .
+=> git status
+=> git commit -m "message"
+=> go to github https://github.com/Mickey-7?tab=repositories
+=> create new repository then copy the URL of the newly created repo
+=> git remote add origin "URL"
+=> git push -u origin master
+
+
+=> git add .		: same directory - only added the folder : make sure that there is no .git on the added folder!!!!!!!
+
+	warning: adding embedded git repository: basic-angular-material-routed-tabs
+	hint: You've added another git repository inside your current repository.
+	hint: Clones of the outer repository will not contain the contents of
+	hint: the embedded repository and will not know how to obtain it.
+	hint: If you meant to add a submodule, use:
+	hint:
+	hint:   git submodule add <url> basic-angular-material-routed-tabs
+	hint:
+	hint: If you added this path by mistake, you can remove it from the
+	hint: index with:
+	hint:
+	hint:   git rm --cached basic-angular-material-routed-tabs
+	hint:
+	hint: See "git help submodule" for more information.
+
+
+=> git commit -m "message"
+
+	[master 45b1c06] added routed tabs
+	 3 files changed, 1 insertion(+), 21 deletions(-)
+	 delete mode 100644 .idea/$PRODUCT_WORKSPACE_FILE$
+	 delete mode 100644 .idea/.gitignore
+	 create mode 160000 basic-angular-material-routed-tabs
+
+=> git push
+
+	Enumerating objects: 3, done.
+	Counting objects: 100% (3/3), done.
+	Delta compression using up to 4 threads
+	Compressing objects: 100% (2/2), done.
+	Writing objects: 100% (2/2), 290 bytes | 290.00 KiB/s, done.
+	Total 2 (delta 1), reused 0 (delta 0)
+	remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+	To https://github.com/Mickey-7/angular.git
+	   10089d5..45b1c06  master -> master
+
+
+
+----------------------------------------------------------------------------------------------------
+
+=> git checkout -b mickey			: creates a mickey branch
+=> git checkout master				: goes back to master branch
+=> git branch -a				: display all branch
+=> git branch -D branch_name			: delete branch
+
+----------------------------------------------------------------------------------------------------
+

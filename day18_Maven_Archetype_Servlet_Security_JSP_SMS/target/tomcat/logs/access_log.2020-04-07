@@ -1,0 +1,4 @@
+0:0:0:0:0:0:0:1 - - [07/Apr/2020:12:00:43 +0800] "POST /day18_Maven_Archetype_Servlet_Security_JSP_SMS/login HTTP/1.1" 302 - http-bio-8080-exec-2 56
+0:0:0:0:0:0:0:1 - - [07/Apr/2020:12:00:44 +0800] "GET /day18_Maven_Archetype_Servlet_Security_JSP_SMS/addStudent HTTP/1.1" 200 518 http-bio-8080-exec-3 939
+0:0:0:0:0:0:0:1 - - [07/Apr/2020:12:00:50 +0800] "POST /day18_Maven_Archetype_Servlet_Security_JSP_SMS/addStudent HTTP/1.1" 302 - http-bio-8080-exec-4 3
+0:0:0:0:0:0:0:1 - - [07/Apr/2020:12:00:51 +0800] "GET /day18_Maven_Archetype_Servlet_Security_JSP_SMS/student HTTP/1.1" 200 755 http-bio-8080-exec-5 87

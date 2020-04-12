@@ -1,0 +1,200 @@
+docker, MySQL already installed
+
+docker configuration : type on windows search
+    ->Computer Management->Local Users and Groups->Groups->docker-users->Add->(type you account name)->Check Names->Apply enable virtualization
+
+docker commands and display out put on cmd terminal:
+    -> docker images
+        C:\Users\mmacaranas\Documents\77-lilo-editor>docker images
+        REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+        mariadb/server      10.3                890adfc23a42        2 months ago        345MB
+        mysql               8.0.18              ed1ffcb5eff3        3 months ago        456MB
+        mysql               <none>              d435eee2caa5        4 months ago        456MB
+        alpine              3.10.3              965ea09ff2eb        5 months ago        5.55MB
+        hello-world         latest              fce289e99eb9        15 months ago       1.84kB
+
+    -> docker ps
+        C:\Users\mmacaranas\Documents\77-lilo-editor>docker ps
+        CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                    NAMES
+        86ea272276bc        mariadb/server:10.3   "docker-entrypoint.s…"   7 hours ago         Up 6 seconds        0.0.0.0:3306->3306/tcp   77-lilo-editor_db_1
+
+    -> docker pull mysql:8.0.18
+         C:\Users\mmacaranas\Documents\77-lilo-editor>docker pull mysql:8.0.18
+         8.0.18: Pulling from library/mysql
+         Digest: sha256:e1b0fd480a11e5c37425a2591b6fbd32af886bfc6d6f404bd362be5e50a2e632
+         Status: Image is up to date for mysql:8.0.18
+
+    -> docker run -d -e MYSQL_ROOT_PASSWORD=PASSWORD -p 3306:3306 mysql:8.0.18
+       C:\Users\mmacaranas>docker run -d -e MYSQL_ROOT_PASSWORD=PASSWORD -p 3306:3306 mysql:8.0.18
+       4d5c1653ffb10798279c8c4e33b7a68e565e9b981bb42c1327b1704bd9555002
+
+    -> docker logs 4d5
+        C:\Users\mmacaranas>docker logs 4d5
+        2020-03-30 12:02:46+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.18-1debian9 started.
+        2020-03-30 12:02:48+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+        2020-03-30 12:02:48+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.18-1debian9 started.
+        2020-03-30 12:02:49+00:00 [Note] [Entrypoint]: Initializing database files
+        2020-03-30T12:02:49.068325Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+        2020-03-30T12:02:49.088585Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.18) initializing of server in progress as process 44
+        2020-03-30T12:03:27.118239Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+
+        C:\Users\mmacaranas>docker logs 4d5
+        2020-03-30 12:02:46+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.18-1debian9 started.
+        2020-03-30 12:02:48+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+        2020-03-30 12:02:48+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.18-1debian9 started.
+        2020-03-30 12:02:49+00:00 [Note] [Entrypoint]: Initializing database files
+        2020-03-30T12:02:49.068325Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+        2020-03-30T12:02:49.088585Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.18) initializing of server in progress as process 44
+        2020-03-30T12:03:27.118239Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+        2020-03-30 12:04:13+00:00 [Note] [Entrypoint]: Database files initialized
+        2020-03-30 12:04:13+00:00 [Note] [Entrypoint]: Starting temporary server
+        2020-03-30T12:04:14.393046Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+        2020-03-30T12:04:14.398612Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.18) starting as process 93
+        2020-03-30T12:04:19.036153Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+        2020-03-30T12:04:19.121805Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+        2020-03-30T12:04:20.368731Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.18'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
+        2020-03-30 12:04:20+00:00 [Note] [Entrypoint]: Temporary server started.
+        2020-03-30T12:04:20.639046Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock'
+        Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
+        Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
+        Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
+        Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+
+        2020-03-30 12:04:38+00:00 [Note] [Entrypoint]: Stopping temporary server
+        2020-03-30T12:04:38.420498Z 10 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.18).
+        2020-03-30T12:04:41.001689Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.18)  MySQL Community Server - GPL.
+        2020-03-30 12:04:41+00:00 [Note] [Entrypoint]: Temporary server stopped
+
+        2020-03-30 12:04:41+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
+
+        2020-03-30T12:04:41.842807Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+        2020-03-30T12:04:41.842918Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.18) starting as process 1
+        2020-03-30T12:04:45.711380Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+        2020-03-30T12:04:45.825563Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+        2020-03-30T12:04:45.931093Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.18'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+        2020-03-30T12:04:46.111081Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/var/run/mysqld/mysqlx.sock' bind-address: '::' port: 33060
+
+checking the database connection by opening MySQL then select:
+    Database->Manage Connection->Test Connection->Successfully made the MySQL connection (should appear)
+
+creating a database using cmd:
+    -> docker exec -it 4d5 bash
+        C:\Users\mmacaranas>docker exec -it 4d5 bash
+        root@4d5c1653ffb1:/#
+            (type: mysql -u root -p then enter)
+            C:\Users\mmacaranas>docker exec -it 4d5 bash
+            root@4d5c1653ffb1:/# mysql -u root -p
+            Enter password:
+                (type: PASSWORD then enter)
+                C:\Users\mmacaranas>docker exec -it 4d5 bash
+                root@4d5c1653ffb1:/# mysql -u root -p
+                Enter password:
+                Welcome to the MySQL monitor.  Commands end with ; or \g.
+                Your MySQL connection id is 10
+                Server version: 8.0.18 MySQL Community Server - GPL
+
+                Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+                Oracle is a registered trademark of Oracle Corporation and/or its
+                affiliates. Other names may be trademarks of their respective
+                owners.
+
+                Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+                mysql>
+                    (type: show databases; then enter)
+                    mysql> show databases;
+                    +--------------------+
+                    | Database           |
+                    +--------------------+
+                    | information_schema |
+                    | mysql              |
+                    | performance_schema |
+                    | sys                |
+                    +--------------------+
+                    4 rows in set (0.01 sec)
+
+                    mysql>
+                        (type: create database databaseName; then enter)
+                        mysql> create database testDB;
+                        Query OK, 1 row affected (0.23 sec)
+
+                        mysql>
+                            (type: show databases; then enter)
+                            mysql> show databases;
+                            +--------------------+
+                            | Database           |
+                            +--------------------+
+                            | information_schema |
+                            | mysql              |
+                            | performance_schema |
+                            | sys                |
+                            | testDB             |
+                            +--------------------+
+                            5 rows in set (0.00 sec)
+
+                            mysql>
+                                notice that the testDB is created
+creating columns on testDB
+    mysql> use testDB;
+        mysql> use testDB;
+        Database changed
+        mysql>
+            (type: create table students(id int, name varchar(100), grade decimal(10,2)); then enter)
+            mysql> create table students(id int, name varchar(100), grade decimal(10,2));
+            Query OK, 0 rows affected (1.40 sec)
+
+            mysql>
+                (type: show tables; then enter)
+                mysql> show tables;
+                +------------------+
+                | Tables_in_testDB |
+                +------------------+
+                | students         |
+                +------------------+
+                1 row in set (0.00 sec)
+
+                mysql>
+                    (type: exit then enter then repeat to exit the database)
+                    mysql> exit
+                    Bye
+                    root@4d5c1653ffb1:/# exit
+                    exit
+
+                    C:\Users\mmacaranas>
+checking the created tesDB on MySQL:
+    click on the + icon (beside MySQL Connections)
+    Connection name would be testDB then click ok
+    Double click the created testDB and then enter PASSWORD then ok
+    check the dropdown content of testDB->Tables->students->columns field names
+
+stop and start:
+    -> docker stop 4d5
+    -> docker start 4d5
+
+create a new database on MySQL:
+    -> Create a new schema in this connected server (database icon - below Query)
+    -> Name : carsDB then click Apply->Apply->Cancel->Finish->Cancel then double click to carsDB (wait until becomes bold which means it is selected already)
+    -> copy app content of car_data.sq and open Create a new SQL tab for executing query (SQL file icon - below File)
+    -> paste all the content then click the thunder icon and action output tab will do the adding
+    -> click the yin:yang like symbol to refresh and notice under the Tables that car_purchases & cars are created
+
+all the DB's have same content with each other
+
+error: Exception in thread "main" java.sql.SQLSyntaxErrorException: Unknown database 'schooldb'
+cause: database doesn't exist
+
+-------------------------------------------------------------------------------------------------
+
+adding mysql-connector-java-8.0.18.jar file to access connection to MySQL
+    -> Project Structure->Libraries->+ (icon)->mysql-connector-java-8.0.18.jar (directory)->Ok->Ok->Apply->Ok
+        check id successfully added -> com.mysql & META-INF will appear under mysql-connector-java-8.0.18.jar
+
+
+
+
+
+
+
+
+

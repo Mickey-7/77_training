@@ -1,0 +1,127 @@
+simple accordion mechanics using Pure HTML and CSS
+
+index.HTML
+  <div class="tab">
+    <input id="addItem" type="checkbox" name="tab">
+    <label for="addItem">Add Item</label>
+    <div class="tab-content">
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit nulla ut excepturi perspiciatis amet nostrum odio dolore accusamus, voluptate veniam, ad nihil atque possimus sit? Commodi libero consequatur voluptas obcaecati.
+      </p>
+    </div>
+  </div>
+style.CSS
+    .tab-content{
+    /* initially hides the tab-content */
+        display: none;
+    }
+    .tab input:checked ~ .tab-content{
+    /* if the input tag is clicked, will show tab-content */
+        display: block;
+    }
+
+removing the checkbox display
+    /* [THE INPUT] */
+    .tab input {
+    /* removing the display of checkbox */
+        display: none;
+    }
+
+separating the label and into a block and adding HTML arrow
+    /* [THE LABEL] */
+    .tab label {
+    /* separate the label into a block from checkbox display */
+        display: block;
+    /* block bg color */
+        background: #2d5faf;
+    /* label text font color */
+        color: #fff;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .tab label::after {
+    /* displays an arrow */
+        content: "\25b6";
+        position: absolute;
+    /* moves the arrow to the right and top */
+        right: 10px;
+        top: 10px;
+        transition:1s;
+    }
+
+adding effects of the arrow
+    /* will perform the rotation of the arrow on label::after */
+    .tab input[type=checkbox]:checked + label::after{
+        transform: rotate(90deg);
+    }
+
+encountering problem as the input above the label 
+(which we hide) also inherits the input in the form
+solution : https://stackoverflow.com/questions/21385087/add-a-form-inside-an-accordion
+    .tab form input {
+        display: block;
+    }
+
+
+
+
+-----------------------------------------------------------------
+iteration on table and experiment on console
+
+if table is like below - no thead & tbody
+
+  <table id="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Year</th>
+      </tr>
+  </table>
+
+we added 1 object :
+ID	Name	Price	Year
+1	item1	12	1111-11-11
+
+we can type on console code below :
+=> document.getElementById("table").children[0]
+    <tbody>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Year</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>item1</td>
+            <td>12</td>
+            <td>1111-11-11</td>
+        </tr>
+    </tbody>
+
+=> document.getElementById("table").children[0].children[0]
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Year</th>
+    </tr>
+
+=> document.getElementById("table").children[0].children[1]
+    <tr>
+        <td>1</td>
+        <td>item1</td>
+        <td>12</td>
+        <td>1111-11-11</td>
+    </tr>
+
+=> document.getElementById("table").children[0].children[1].children[0]
+    <td>1</td>
+
+=> document.getElementById("table").children[0].children[1].children[0].innerHTML
+    "1"
+
+------------------------------------------------------------------
+passing of data from input field is by the use of id property

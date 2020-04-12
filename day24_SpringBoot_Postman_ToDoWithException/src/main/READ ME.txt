@@ -1,0 +1,159 @@
+dependency needed : Spring Web - still from start.spring.io
+
+ ----------------------------------------------------------------------------------------
+ToDo API - will use Postman
+
+domain -> Todo
+dao -> TodoDAO (interface)
+        -> TodoDAOImpl implements TodoDAO
+        -> we will add another method to get the id for Exception purposes
+            -> @Component and override methods
+            -> we will add another method to get the id for Exception purposes
+service -> TodoService
+            -> @Service and @Autowired annotation and constructor
+            -> we will throw exception here later
+controller -> TodoController
+                -> @RestController and @Autowired annotation and constructor
+                    -> since this is an API : we are now using @RestController annotation
+                -> @RequestMapping("todos")
+                    -> pertains to url after localhost:8080 -> localhost:8080/todos
+                -> @RequestBody
+                    -> annotation binds request body to method parameters.
+                    -> use for @PostMapping & @PutMapping
+                -> @PathVariable
+                    -> use for method that needs id like delete and update and patch
+                    -> @PathVariable is a Spring annotation which indicates that a method parameter should be bound to a URI template variable.
+other notes :
+
+	//HTTP Methods: (REST Standard)
+	//GET - retrieving resource/s (get student/s)
+	//    - localhost:8080/students
+	//POST - add resource/s (add student/s)
+	//    - has request body (default: JSON)
+	//    - localhost:8080/students
+	//PUT - replace resource details (update student)
+	//    - has request body (default: JSON)
+	//    - localhost:8080/students/{id}
+	//DELETE - delete resource (delete student)
+	//    - localhost:8080/students/{id}
+	//PATCH - update resource
+	//    - has request body (default: JSON)
+	//    - localhost:8080/students/{id}
+
+----------------------------------------------------------------------------------------
+open Postman and test API
+
+addTodo - configuration
+    POST    localhost:8080/todos    SEND
+Body -> raw -> JSON
+        {
+            "id":1,
+            "title":"todo1",
+            "description":"description1"
+        }
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+
+
+viewTodo - configuration
+    GET    localhost:8080/todos    SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+    [
+        {
+            "id": 1,
+            "title": "todo1",
+            "description": "description1",
+            "status": false,
+            "dateCreated": "2020-03-29T18:35:15.9550875",
+            "dateUpdated": null
+        }
+    ]
+
+
+patchTodo - configuration
+    PATCH   localhost:8080/todos/mark/1     SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+verify : by using GET configuration
+    GET    localhost:8080/todos    SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+    [
+        {
+            "id": 1,
+            "title": "todo1",
+            "description": "description1",
+            "status": true,
+            "dateCreated": "2020-03-29T18:35:15.9550875",
+            "dateUpdated": "2020-03-29T18:38:57.2585532"
+        }
+    ]
+notice the status becomes true
+
+
+putTodo - configuration
+    PUT     localhost:8080/todos/update/1   SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+verify : by using GET configuration
+    GET    localhost:8080/todos    SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+    [
+        {
+            "id": 1,
+            "title": "todo10",
+            "description": "description10",
+            "status": true,
+            "dateCreated": "2020-03-29T18:35:15.9550875",
+            "dateUpdated": "2020-03-29T18:43:36.1010792"
+        }
+    ]
+notice the changes on title & description and also the dateUpdated was created
+
+
+deleteTodo - configuration
+    DELETE  localhost:8080/todos/delete/1    SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+verify : by using GET configuration
+    GET    localhost:8080/todos    SEND
+click SEND -> notice the result should be:
+    status: 200OK Time: 205ms Size: 123 B
+    []
+notice the empty array retrun which means the todo is deleted
+
+----------------------------------------------------------------------------------------
+handling Exception
+
+under com.example.day24_Postman_ToDoWithException,
+
+create exception/IdMustExistException & DuplicateIdException class
+            -> extends both class to RuntimeException
+
+create advice/TodoControllerAdvice class
+            -> @ControllerAdvice
+                -> is a specialization of the @Component annotation which allows to handle exceptions across the whole application in one global handling component.
+                -> it can be viewed as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
+                -> @ExceptionHandler(value = ClassNameException.class)
+                    -> @ExceptionHandler is an annotation for handling exceptions in specific handler classes or handler methods
+                    -> ResponseEntityExceptionHandler is a convenient base class for @ControllerAdvice classes that wish to provide centralized exception handling across all @RequestMapping methods through @ExceptionHandler methods.
+
+to use the Exception:
+    we add another interface on dao and implement it
+    we also need to modify service methods
+
+for TodoDAO : Todo getId(Long id)
+for TodoDAOImpl : implement and code its method content
+
+for TodoService : deleteTodo
+    -> create Optional<Todo> object which will return boolean (.isPresent()) for id checking (todoDAO.getTodoId(id))
+
+same goes for mark and update
+
+addTodo must throw new DuplicateIdException()
+    -> we can use the getTodo() method output and iterate on it to check if certain todo exist already
+
+make sure that throwing exception will occur first before the normal operation
+tips: if not working properly : try sout the condition to check

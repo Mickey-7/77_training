@@ -1,0 +1,6 @@
+error below will be encountered if no mysql-connector-java-8.0.18.jar file is added to the library via project structure
+
+Exception in thread "main" java.sql.SQLException: No suitable driver found for jdbc:mysql://127.0.0.1:3306
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:702)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
+	at com.company.PreparedStatement.JDBC_PreparedStatement.main(JDBC_PreparedStatement.java:16)

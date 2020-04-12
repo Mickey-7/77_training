@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Student</title>
+</head>
+<body>
+    <header th:replace="fragments/header.html :: header"></header>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Grade</th>
+        </tr>
+<!--        notice th:each-->
+        <tr th:each="student:${students}">
+<!--        notice the th:text="${student.id}"-->
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.grade}"></td>
+        </tr>
+    </table>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

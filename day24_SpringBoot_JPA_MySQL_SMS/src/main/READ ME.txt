@@ -1,0 +1,90 @@
+need to import dependencies below from start.spring.io
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+------------------------------------------------------------------------------------------------------------------------
+
+domain : Teacher, Student, AAddress class
+    => @Entity
+        Entities. An entity is a lightweight persistence domain object.
+        Typically, an entity represents a table in a relational database,
+        and each entity instance corresponds to a row in that table.
+        The primary programming artifact of an entity is the entity class, although entities can use helper classes.
+    => @Table(name = "table_name")
+    => @Id
+    => @GeneratedValue(strategy = GenerationType.IDENTITY)
+        The @ GeneratedValue annotation is used when you want Hibernate
+        to assign the entity identifier automatically using either: a SEQUENCE
+    => OneToOne
+    => ManyToOne
+    => OneToMany(mappedBy = " ")
+
+application.properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/studentDB?useSSL=false
+    spring.datasource.username=root
+    spring.datasource.password=PASSWORD
+    spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+    #spring.jpa.hibernate.ddl-auto=create
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.generate-ddl=true
+    spring.jpa.show-sql=true
+
+repository : StudentRepository interface
+    => @Repository
+    => extends JpaRepository<Students,Long>
+
+service : StudentService class
+    => @Service
+    => private StudentRepository studentRepository;
+    => @Autowired
+       public StudentService(StudentRepository studentRepository){ this.studentRepository = studentRepository;}
+    => 2 methods are built-in .save(), .saveAll() and .findAll()
+
+controller : StudentController class
+    => @RestController
+    => @RequestMapping("/url_name")
+    => private StudentService studentService;
+    => @Autowired
+       public StudentController(StudentService studentService){ this.studentService = studentService;}
+    => @PostMapping for addStudent() and @PostMapping("addStudents") for addAllStudents() which contains @RequestBody as input parameter
+    => @GetMapping for getAllStudents() and @GetMapping("customQuery") for custom()
+    => @GetMapping("searchName") for findAllByNameContaining() and @GetMapping("getGrade") for getAllStudentsGreaterThan() which contains @RequestParam as input parameter
+        need to put ?grade=90 after getGrade URL and ?name=name_to_be_search after searchName URL -> corresponds to the RequestParam
+
+------------------------------------------------------------------------------------------------------------------------
+
+Just a side note on generating data on mockaroo : Field Name (blank), Type (Blank) if don't want to include the field
+
+------------------------------------------------------------------------------------------------------------------------
+
+Postman : from mockaroo - select Format to JSON type then Preview and Download
+    just copy the content then paste on Postman Body->raw->JSON
+
+POST : localhost:8080/students/addStudents      SEND
+    run console output  : Hibernate: insert into student (address_id, grade, name, teacher_id) values (?, ?, ?, ?) -> 100x
+
+GET : localhost:8080/students/      SEND
+    run console output : Hibernate: select student0_.id as id1_1_, student0_.address_id as address_4_1_, student0_.grade as grade2_1_, student0_.name as name3_1_, student0_.teacher_id as teacher_5_1_ from student student0_
+
+GET : localhost:8080/students/searchName?name=Erica     SEND
+    run console output : Hibernate: select student0_.id as id1_1_, student0_.address_id as address_4_1_, student0_.grade as grade2_1_, student0_.name as name3_1_, student0_.teacher_id as teacher_5_1_ from student student0_ where student0_.name like ? escape ?
+
+GET : localhost:8080/students/customQuery     SEND
+    run console output :Hibernate: select * from student where grade > 90
+
+GET : localhost:8080/students/getGrade?grade=87  SEND
+    run console output : Hibernate: select student0_.id as id1_1_, student0_.address_id as address_4_1_, student0_.grade as grade2_1_, student0_.name as name3_1_, student0_.teacher_id as teacher_5_1_ from student student0_

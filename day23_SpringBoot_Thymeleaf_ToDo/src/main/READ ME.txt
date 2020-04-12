@@ -1,0 +1,77 @@
+project from start.spring.io
+
+------------------------------------------------------------------------------------------
+BE
+
+domain -> Todo
+dao -> TodoDAO (interface)
+        -> TodoDAOImpl implements TodoDAO
+            ->  override methods
+            -> @Component annotation
+service -> TodoService
+            -> @Service and @Autowired annotation
+            -> constructor
+controller -> TodoController
+                -> @Controller & @Autowired annotation
+                -> constructor
+                -> @GetMapping pertains to the href links on home.html & redirect of @PostMapping
+
+
+
+------------------------------------------------------------------------------------------
+FE
+
+resources/templates -> fragments/header.html
+                            -> th:fragment="header"
+                            -> href links pertains to the @GetMapping on controller
+
+resources/templates -> fragments/footer.html
+                            -> th:fragment="footer"
+
+resources/templates -> home.html
+                        -> contains header and footer : th:replace="fragments/header.html :: header"
+                        -> th:text="message" : pertains to Model "message" on controller
+
+resources/templates -> addTodo.html
+                     -> contains header and footer : th:replace="fragments/header.html :: header"
+                     -> th:object="${todo}" & th:field="*{title}" pertains to ModelMap on controller
+                     -> th:action="/addPost" & method="post" pertains to @PostMapping on controller
+
+resources/templates -> viewTodo.html
+                     -> contains header and footer : th:replace="fragments/header.html :: header"
+                     -> th:each="todo:${todos}" & th:text="${todo.title}" pertains to the "todos" ModelMap on controller
+                     -> we will include here the delete and mark
+                        -> <a th:href="@{/delete/{title}(title=${todo.title})}">Delete<a>
+                            -> the (title=${todo.title}) pertains to setting  of todo title
+                            -> the th:href="@{/delete/{title}}" pertains to @GetMapping on the controller
+                        -> <a th:href="@{/update/{title}(title=${todo.title})}">Delete<a>
+                            -> the (title=${todo.title}) pertains to setting  of todo title
+                            -> the th:href="@{/update/{title}}" pertains to @GetMapping on the controller
+
+------------------------------------------------------------------------------------------
+
+addTodo - sequence
+Controller home             -> start from home controller
+Controller GET addTodo      -> @GetMapping of addTodo
+Controller POST addTodo     -> once submit button is clicked : @PostMapping is executed
+Service addTodo             -> service fro addTodo
+DAO addTodo                 -> dao for addTodo
+Controller GET viewTodo     -> redirect:/viewTodo
+Service getAllTodo          -> service for getAllTodo
+DAO getAllTodo              -> dao for getAllTodo
+
+deleteTodo - sequence
+Controller GET deleteTodo   -> getting the title of todo to be deleted
+Service deleteTodo          -> service for deleteTodo
+DAO deleteTodo              -> dao for deleteTodo
+Controller GET viewTodo     -> redirect:/viewTodo
+Service getAllTodo          -> service for getAllTodo
+DAO getAllTodo              -> dao for getAllTodo
+
+updateTodo - sequence
+Controller GET updateTodo
+Service markAsTrue
+DAO updateTodo
+Controller GET viewTodo     -> redirect:/viewTodo
+Service getAllTodo          -> service for getAllTodo
+DAO getAllTodo              -> dao for getAllTodo

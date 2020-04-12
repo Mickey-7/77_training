@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Student</title>
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <h3>Enter ID to be deleted: </h3>
+<!--    notice the th:action , method and th:object properties-->
+    <form th:action="'/deleteStudentPost/'+${id}" method="post" th:object="${student}">
+        ID : <input type="number" th:field="*{id}">
+        <input type="submit" value="Delete Student">
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

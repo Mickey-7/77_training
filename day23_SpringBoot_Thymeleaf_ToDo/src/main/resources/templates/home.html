@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+    <header th:replace="fragments/header.html :: header"></header>
+<!--        displaying "message" from Model controller -->
+        <h3 th:text="${message}"></h3>
+        <h6>Nothing to see here</h6>
+        <p>Navigate on the links</p>
+<!--    th:replace = " url of .html file w.r.t. templates :: fragment name "-->
+<footer th:replace="fragments/footer.html :: footer"></footer>
+</body>
+</html>

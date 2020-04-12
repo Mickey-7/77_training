@@ -1,0 +1,115 @@
+for random data generation : https://www.mockaroo.com/
+
+Field Name  | Type              |
+------------|-------------------|
+id          |Row Number         |
+name        |Company Name       |
+price       |Money              |   currency in : none -> sample output : 9.99
+active      |Boolean            |
+dateAdded   |Date               |   date format in : yyyy-mm-dd -> sample output : 2019-10-27
+timeAdded   |Time               |   time format in : 24 Hour w/seconds -> sample output : 7:23:25.000
+dateUpdated |Date               |
+timeUpdated |Time               |
+
+Add another field       <added 2 field for the time and data updated column>
+
+------------------------------------------------------------------------------------
+# Rows: 100  |   Format: SQL   |  Table Name: items  | check : include create table
+------------------------------------------------------------------------------------
+Download Data   Preview
+
+Preview - Table
+id	name	    price	active	dateAdded	timeAdded	dateUpdated	timeUpdated
+1	Photobug	3.68	true	2020-03-13	1:06:40	    2020-01-30	6:59:07
+2	Avamba	    3.21	false	2019-10-19	6:59:21	    2019-11-21	0:03:00
+
+Preview - SQL
+create table items (
+	id INT,
+	name VARCHAR(50),
+	price VARCHAR(50),
+	active VARCHAR(50),
+	dateAdded DATE,
+	timeAdded VARCHAR(50),          -> will be change from VARCHAR to TIME
+	dateUpdated DATE,
+	timeUpdated VARCHAR(50)         -> will be change from VARCHAR to TIME
+);
+insert into items (id, name, price, active, dateAdded, timeAdded, dateUpdated, timeUpdated) values (1, 'Photobug', '3.68', true, '2020-03-13', '1:06:40', '2020-01-30', '6:59:07');
+insert into items (id, name, price, active, dateAdded, timeAdded, dateUpdated, timeUpdated) values (2, 'Avamba', '3.21', false, '2019-10-19', '6:59:21', '2019-11-21', '0:03:00');
+
+-> click download and the file will be saved as items.sql
+-> on mysql, open a SQL File then paste the content of the items.sql
+-> IMPORTANT NOTE : change the VARCHAR to TIME on timeAdded and timeUpdated then execute
+-> of above note was not done, error below will occur :
+
+Exception in thread "main" java.sql.SQLDataException: Cannot convert string '2:58:56' to java.sql.Time value
+
+------------------------------------------------------------------------------------------------------------------------
+on pom.xml, add the dependencies below:
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
+    </dependencies>
+
+when encountered this error : Error:java: error: release version 5 not supported
+add the below code :
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+------------------------------------------------------------------------------------------------------------------------
+under java folder,
+
+(Model)
+create Model/domain/Item class
+    -> 2 constructor
+        constructor with complete parameters
+            -> used on itemDAO.addItem() as we need to set here the date & time
+        constructor with id,name,price parameters
+            -> used on getting the id,name,price only as other parameters are automatically set already on the above constructor
+            -> the transfer on the constructor will happen automatically - magic!
+
+create Model/dao/ItemDAO class
+    -> create blank constructor connecting to DB
+    -> will be called by ItemService
+
+create Model/service/ItemService class
+    -> create ItemDAO object : private ItemDAO itemDAO;
+    -> create constructor below:
+        public ItemService(){
+            itemDAO = new ItemDAO();
+        }
+    -> will be called by ItemController
+
+(Controller)
+create Controller/ItemController class
+    -> create ItemService object : private ItemService itemService;
+    -> create constructor below:
+        public ItemController(){
+            itemService = new ItemService();
+        }
+    -> will be called by Main
+
+(View)
+create View/Main class
+    -> create ItemController : private ItemController itemController = new ItemController();
+        will encounter error like below if not followed the declaration above
+        -> Exception in thread "main" java.lang.NullPointerException
+
+------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,72 @@
+<html>
+    <body>
+        <h3>getElementById</h3>
+        <p id="demo"></hp>
+        <p id="intro">id=intro</p>
+        <p id="intro1"></p>
+        <hr/>
+        <h3>getElementByTagName</h3>
+        <p>getElementByTagName</p>
+        <p id="tagging"></p>
+        <br/>
+        <div id="main">
+            <p>p inside div</p>
+        </div>
+        <p id="tags"></p>
+        <br/>
+        <form id="form1">
+            FirstName : <input type="text"/>
+            LastName : <input type="text"/>
+        </form>
+        <button onclick="displayFields()">Display</button>
+        <p id="display"></p>
+        <hr/>
+    </body>
+    <script>
+        
+//getElementByTagName---------------------------------------------------------
+
+        // getElementById is a method and innerHTML is a property
+        document.getElementById("demo").innerHTML = "this is DOM : Document Object Model"
+
+        // storing the text id=intro by id
+        var idIntro = document.getElementById("intro");
+        //displaying new text and using the stored text
+        document.getElementById("intro1").innerHTML = 
+        "text from above intro is "+idIntro.innerHTML;
+
+//getElementByTagName---------------------------------------------------------
+
+        //storing the text getElementByTagName by TagName("p")
+        var x = document.getElementsByTagName("p");
+        //displaying new text and using the stored text
+        document.getElementById("tagging").innerHTML = 
+        "the text from above is "+x[3].innerHTML;
+
+        //storing id main for div
+        var y = document.getElementById("main");
+        //storing the text inside the p tagname which is inside the div
+        var z = y.getElementsByTagName("p");
+        //displaying new text and using the stored text
+        document.getElementById("tags").innerHTML = 
+        "text from above after div main is "+z[0].innerHTML;
+
+        //function to display value of fields
+        function displayFields(){
+            var field = document.forms["form1"];
+            //blank string for storage of the fields
+            var text="";
+            for (let i = 0; i < field.length; i++) {
+                 text += field[i].value+" ";
+            }
+            document.getElementById("display").innerHTML = text;
+        }
+
+
+
+
+
+
+
+    </script>
+</html>
