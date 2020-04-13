@@ -1,0 +1,63 @@
+
+- Employee: id, firstName, lastName, gender, salary, resigned, supervisor
+- Supervisor: id, firstName, lastName, gender
+
+Features:
+- View All/View Single/Add/Edit/Delete Employee/Supervisor
+- View Single Supervior: show list of employees
+- Apply pagination, (optional) sort, (optional) filter
+
+--------------------------------------------------------------------------------------------------
+
+install angular material
+    => npx ng add @angular/material
+
+import {HttpClientModule} from '@angular/common/http'; on app.module.ts
+    invoke the HttpClient on constructor of service
+
+--------------------------------------------------------------------------------------------------
+class
+    npx ng g cl domain/employee --skipTests
+    npx ng g cl domain/supervisor --skipTests
+        => invoking -> employees : Employee[];
+
+service
+    npx ng g s service/employee --skipTests
+    npx ng g s service/supervisor --skipTests
+
+    invoke the service on constructor of all components except header
+
+component
+    npx ng g c component/employee/addEmp -it -is --skipTests
+    npx ng g c component/employee/editEmp -it -is --skipTests
+    npx ng g c component/employee/viewEmp -it -is --skipTests
+
+    npx ng g c component/supervisor/addSup -it -is --skipTests
+    npx ng g c component/supervisor/editSup -it -is --skipTests
+    npx ng g c component/supervisor/viewSup -it -is --skipTests
+     npx ng g c component/supervisor/viewSupById -it -is --skipTests
+
+    npx ng g c component/header -it -is --skipTests
+
+--------------------------------------------------------------------------------------------------
+
+    add all the necessary routing of the components made on app-routing.module.ts
+
+        {path="",pathMatch="full",redirectTo="/"}
+--------------------------------------------------------------------------------------------------
+
+start importing angular material : https://material.angular.io/components/categories
+
+example : Tabs https://material.angular.io/components/tabs/api
+    go to API then copy below :
+        API reference for Angular Material tabs
+        => import {MatTabsModule} from '@angular/material/tabs';
+    then paste on angular-material.module.ts
+        then MatTabsModule on imports:[]
+
+then look at the example and copy the code and modify for your need
+    https://material.angular.io/components/tabs/examples
+
+--------------------------------------------------------------------------------------------------
+
+run BE then FE : on web browser type local host of FE

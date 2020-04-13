@@ -1,0 +1,21 @@
+
+- Employee: id, firstName, lastName, gender, salary, resigned, supervisor
+- Supervisor: id, firstName, lastName, gender
+
+Features:
+- View All/View Single/Add/Edit/Delete Employee/Supervisor
+- View Single Supervior: show list of employees
+- Apply pagination, (optional) sort, (optional) filter
+
+--------------------------------------------------------------------------------------------------
+
+
+using @OneToMany
+
+
+
+--------------------------------------------------------------------------------------------------
+
+error encountered :
+    null values on DB but successfully adding based on run console output
+        => forgot to put @RequestBody on the controller API!!!!!!!
